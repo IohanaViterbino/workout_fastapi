@@ -1,83 +1,77 @@
-# FastAPI
-### Quem é o FastAPi?
-Framework FastAPI, alta performance, fácil de aprender, fácil de codar, pronto para produção.
-FastAPI é um moderno e rápido (alta performance) framework web para construção de APIs com Python 3.6 ou superior, baseado nos type hints padrões do Python.
+# Projeto com FastAPI
 
-### Async
-Código assíncrono apenas significa que a linguagem tem um jeito de dizer para o computador / programa que em certo ponto, ele terá que esperar por algo para finalizar em outro lugar
+## Visão Geral
 
-# Projeto
-## WorkoutAPI
+Este projeto é uma aplicação FastAPI projetada e adaptada para o desafio do BootCamp Python da plataforma [DIO](https://github.com/digitalinnovationone).
 
-Esta é uma API de competição de crossfit chamada WorkoutAPI (isso mesmo rs, eu acabei unificando duas coisas que gosto: codar e treinar). É uma API pequena, devido a ser um projeto mais hands-on e simplificado nós desenvolveremos uma API de poucas tabelas, mas com o necessário para você aprender como utilizar o FastAPI.
+## Funcionalidades
 
-## Modelagem de entidade e relacionamento - MER
-![MER](/mer.jpg "Modelagem de entidade e relacionamento")
+- **Operações CRUD para Atletas**: Criar, ler, atualizar e deletar registros de atletas.
+- **Gerenciamento de Categorias e Centros de Treinamento**: Vincular atletas às suas respectivas categorias e centros de treinamento.
+- **Paginação**: Paginar os resultados de maneira eficiente usando `fastapi_pagination`.
+- **Tratamento de Exceções**: Manipular erros de integridade do SQL e outras exceções.
 
-## Stack da API
+## Configuração
 
-A API foi desenvolvida utilizando o `fastapi` (async), junto das seguintes libs: `alembic`, `SQLAlchemy`, `pydantic`. Para salvar os dados está sendo utilizando o `postgres`, por meio do `docker`.
+### Pré-requisitos
 
-## Execução da API
+- Python 3.12+
+- MySQL
+- Poetry (para gerenciamento de dependências)
 
-Para executar o projeto, utilizei a [pyenv](https://github.com/pyenv/pyenv), com a versão 3.11.4 do `python` para o ambiente virtual.
+### Instalação
 
-Caso opte por usar pyenv, após instalar, execute:
+## Configuração de Variáveis de Ambiente
 
-```bash
-pyenv virtualenv 3.11.4 workoutapi
-pyenv activate workoutapi
-pip install -r requirements.txt
-```
-Para subir o banco de dados, caso não tenha o [docker-compose](https://docs.docker.com/compose/install/linux/) instalado, faça a instalação e logo em seguida, execute:
+Antes de executar a aplicação, configure as variáveis de ambiente no arquivo `.env`:
 
-```bash
-make run-docker
-```
-Para criar uma migration nova, execute:
-
-```bash
-make create-migrations d="nome_da_migration"
+```env
+DATABASE_URL=mysql+aiomysql://<user>:<password>@localhost/<database_name>
 ```
 
-Para criar o banco de dados, execute:
+1. **Clone o repositório**:
+    ```bash
+    git clone https://github.com/IohanaViterbino/BootCamp-DIO-Python-BackEnd
+    cd BootCamp-DIO-Python-BackEnd/fastAPI
+    ```
 
-```bash
-make run-migrations
-```
+2. **Instale as dependências**:
+    ```bash
+    poetry install
+    ```
 
-## API
+3. **Configure o Banco de Dados**:
+    - Certifique-se de que o MySQL está em execução.
+    - Atualize o arquivo `alembic.ini` com os detalhes da conexão do MySQL:
+        ```ini
+        sqlalchemy.url = mysql+aiomysql://<user>:<password>@localhost/<database_name>
+        ```
 
-Para subir a API, execute:
-```bash
-make run
-```
-e acesse: http://127.0.0.1:8000/docs
+4. **Execute as Migrações do Banco de Dados**:
+    ```bash
+    poetry run run-migrations
+    ```
 
-# Desafio Final
-    - adicionar query parameters nos endpoints
-        - atleta
-            - nome
-            - cpf
-    - customizar response de retorno de endpoints
-        - get all
-            - atleta
-                - nome
-                - centro_treinamento
-                - categoria
-    - Manipular exceção de integridade dos dados em cada módulo/tabela
-        - sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
-        - status_code: 303
-    - Adicionar paginação utilizando a lib: fastapi-pagination
-        - limit e offset
-# Referências
+### Executando a Aplicação
 
-FastAPI: https://fastapi.tiangolo.com/
+1. **Inicie o servidor FastAPI**:
+    ```bash
+    poetry run serv
+    ```
 
-Pydantic: https://docs.pydantic.dev/latest/
+2. **Acesse a documentação da API**:
+    - Acesse `http://localhost:8000/docs` no seu navegador para visualizar e interagir com a documentação da API gerada automaticamente pelo Swagger UI.
 
-SQLAlchemy: https://docs.sqlalchemy.org/en/20/
+## Estrutura do Projeto
 
-Alembic: https://alembic.sqlalchemy.org/en/latest/
+- **atleta**: Contém modelos, esquemas e controladores relacionados aos atletas.
+- **categoria**: Contém modelos e esquemas relacionados às categorias.
+- **centro_treinamento**: Contém modelos e esquemas relacionados aos centros de treinamento.
+- **contrib**: Contém dependências e utilitários compartilhados.
+- **alembic**: Diretório de configurações e scripts de migração de banco de dados.
 
-Fastapi-pagination: https://uriyyo-fastapi-pagination.netlify.app/
+
+## Licença
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
